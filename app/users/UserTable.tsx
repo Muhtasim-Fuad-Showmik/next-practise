@@ -1,4 +1,6 @@
+import Link from "next/link";
 import React from "react";
+import { sort } from "fast-sort";
 
 interface User {
   id: number;
@@ -6,7 +8,11 @@ interface User {
   email: string;
 }
 
-const UserTable = async () => {
+interface Props {
+  sortOrder: string;
+}
+
+const UserTable = async ({ sortOrder }: Props) => {
   const res = await fetch("https://jsonplaceholder.typicode.com/users", {
     /**
      * If we don't want Next to cached response from the API, enable the config below, and disable the bottom.
@@ -19,16 +25,25 @@ const UserTable = async () => {
     },
   });
   const users: User[] = await res.json();
+
+  const sortedUsers = sort(users).asc(
+    sortOrder === "email" ? (user) => user.email : (user) => user.name
+  );
+
   return (
     <table className="table table-bordered">
       <thead>
         <tr>
-          <th>User Name</th>
-          <th>User Email</th>
+          <th>
+            <Link href="/users?sortOrder=name">User Name</Link>
+          </th>
+          <th>
+            <Link href="/users?sortOrder=email">User Email</Link>
+          </th>
         </tr>
       </thead>
       <tbody>
-        {users.map((user) => (
+        {sortedUsers.map((user) => (
           <tr key={user.id}>
             <td>{user.name}</td>
             <td>{user.email}</td>
