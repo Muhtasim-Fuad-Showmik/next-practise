@@ -17,8 +17,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" data-theme="winter">
-      <NavBar />
-      <main className="p-5">{children}</main>
+      <body>
+        <NavBar />
+        <main className="p-5">{children}</main>
+      </body>
     </html>
   );
 }
