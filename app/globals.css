@@ -14,5 +14,11 @@
 
 body {
   color: rgb(var(--foreground-rgb));
-  padding: 1rem;
+}
+
+/* Defines styles for basic HTML elements */
+@layer base {
+  h1 {
+    @apply font-extrabold text-2xl mb-3;
+  }
 }
