@@ -20,9 +20,9 @@ const UserTable = async ({ sortOrder }: Props) => {
      * automatically instead of generating a dynamically generated HTML.
      */
     // cache: 'no-store'
-    next: {
-      revalidate: 10, // Revalidates response from the mentioned API after every 10 seconds.
-    },
+    // next: {
+    //   revalidate: 10, // Revalidates response from the mentioned API after every 10 seconds.
+    // },
   });
   const users: User[] = await res.json();
 
