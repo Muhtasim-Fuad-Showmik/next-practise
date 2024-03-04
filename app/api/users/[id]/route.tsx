@@ -85,7 +85,7 @@ export async function DELETE(
 
   // If not found, return 404 error
   if (!user)
-    return NextResponse.json({ error: "User not found" }, { status: 400 });
+    return NextResponse.json({ error: "User not found" }, { status: 404 });
 
   // Delete the user
   await prisma.user.delete({
