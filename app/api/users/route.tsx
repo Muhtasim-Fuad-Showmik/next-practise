@@ -1,8 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 
-// The request object in the parameter needs to stay
-// even though it is unused here, to prevent Next from
-// caching the data otherwise.
+/**
+ * Gets all users from the database
+ * ! The request object in the parameter needs to stay even though
+ * ! it is unused here, to prevent Next from caching the data otherwise.
+ *
+ * @param request with no requirements
+ * @returns details of all users from the database
+ */
 export function GET(request: NextRequest) {
   // Fetch all user data from a database
   return NextResponse.json([
@@ -12,6 +17,12 @@ export function GET(request: NextRequest) {
   ]);
 }
 
+/**
+ * Creates a new user
+ *
+ * @param request with details of the new user in the body
+ * @returns created user object
+ */
 export async function POST(request: NextRequest) {
   // Retrieve the body content from the request
   const body = await request.json();
