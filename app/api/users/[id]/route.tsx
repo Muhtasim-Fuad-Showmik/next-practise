@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import schema from "../schema";
 
 /**
  * Retrieves details of the specified user
@@ -36,8 +37,9 @@ export async function PUT(
   const body = await request.json();
 
   // If invalid, return 400 error
-  if (!body.name)
-    return NextResponse.json({ error: "Name is required" }, { status: 400 });
+  const validation = schema.safeParse(body);
+  if (!validation.success)
+    return NextResponse.json(validation.error.errors, { status: 400 });
 
   // Fetch the user with the given id
 
