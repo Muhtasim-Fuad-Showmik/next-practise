@@ -50,3 +50,26 @@ export async function PUT(
   // Return the updated user
   return NextResponse.json({ id: params.id, name: body.name });
 }
+
+/**
+ * Deletes the specified user from the database
+ *
+ * @param request with no requirements
+ * @param param with ID of the user to delete
+ * @returns an empty object
+ */
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: { id: number } }
+) {
+  // Fetch user from the database
+
+  // If not found, return 404 error
+  if (params.id > 10)
+    return NextResponse.json({ error: "User not found" }, { status: 400 });
+
+  // Delete the user
+
+  // Return response with 200 status code
+  return NextResponse.json({});
+}
