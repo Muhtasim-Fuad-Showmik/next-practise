@@ -11,3 +11,16 @@ export function GET(request: NextRequest) {
     { id: 3, name: "Sakif" },
   ]);
 }
+
+export async function POST(request: NextRequest) {
+  // Retrieve the body content from the request
+  const body = await request.json();
+
+  // VALIDATION:
+  // If invalid, return 400
+  if (!body.name)
+    return NextResponse.json({ error: "Name is required" }, { status: 400 });
+
+  // Else return the JSON response
+  return NextResponse.json({ id: 1, name: body.name }, { status: 201 });
+}
