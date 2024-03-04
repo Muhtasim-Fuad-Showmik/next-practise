@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import schema from "./schema";
+import prisma from "@/prisma/client";
 
 /**
  * Gets all users from the database
@@ -9,13 +10,10 @@ import schema from "./schema";
  * @param request with no requirements
  * @returns details of all users from the database
  */
-export function GET(request: NextRequest) {
+export async function GET(request: NextRequest) {
   // Fetch all user data from a database
-  return NextResponse.json([
-    { id: 1, name: "Fuad" },
-    { id: 2, name: "Shehjad" },
-    { id: 3, name: "Sakif" },
-  ]);
+  const users = await prisma.user.findMany();
+  return NextResponse.json(users);
 }
 
 /**
