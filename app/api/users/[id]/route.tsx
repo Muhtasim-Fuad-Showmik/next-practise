@@ -35,7 +35,7 @@ export async function GET(
  */
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: number } }
+  { params }: { params: { id: string } }
 ) {
   // Validate the request body
   const body = await request.json();
@@ -46,15 +46,25 @@ export async function PUT(
     return NextResponse.json(validation.error.errors, { status: 400 });
 
   // Fetch the user with the given id
+  const user = await prisma.user.findUnique({
+    where: { id: parseInt(params.id) },
+  });
 
   // If the user does not exist, return 404
-  if (params.id > 10)
+  if (!user)
     return NextResponse.json({ error: "User not found" }, { status: 404 });
 
   // Update the user in the database
+  const updatedUser = await prisma.user.update({
+    where: { id: user.id },
+    data: {
+      name: body.name,
+      email: body.email,
+    },
+  });
 
   // Return the updated user
-  return NextResponse.json({ id: params.id, name: body.name });
+  return NextResponse.json(updatedUser);
 }
 
 /**
