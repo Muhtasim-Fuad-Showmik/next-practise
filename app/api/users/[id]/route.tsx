@@ -1,5 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 
+/**
+ * Retrieves details of the specified user
+ *
+ * @param reqest with no required format
+ * @param param containing the ID of the user to get
+ * @returns the retrieved user with the specified ID
+ */
 export function GET(
   reqest: NextRequest,
   { params }: { params: { id: number } }
@@ -14,6 +21,13 @@ export function GET(
   return NextResponse.json({ id: 1, name: "Fuad" });
 }
 
+/**
+ * Updates the specified user
+ *
+ * @param request containing update body
+ * @param param with an ID
+ * @returns updated user
+ */
 export async function PUT(
   request: NextRequest,
   { params }: { params: { id: number } }
