@@ -5,7 +5,7 @@ import prisma from "@/prisma/client";
 /**
  * Retrieves details of the specified user
  *
- * @param reqest with no required format
+ * @param request with no required format
  * @param param containing the ID of the user to get
  * @returns the retrieved user with the specified ID
  */
