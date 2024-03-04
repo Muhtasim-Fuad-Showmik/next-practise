@@ -9,7 +9,7 @@ import schema from "../schema";
  * @returns the retrieved user with the specified ID
  */
 export function GET(
-  reqest: NextRequest,
+  request: NextRequest,
   { params }: { params: { id: number } }
 ) {
   // Fetch data of the specified user from the database
