@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import schema from "./schema";
+import prisma from "@/prisma/client";
 
 /**
  * Gets all products from the database
@@ -9,13 +10,10 @@ import schema from "./schema";
  * @param request with no requirements
  * @returns details of all products from the database
  */
-export function GET(request: NextRequest) {
+export async function GET(request: NextRequest) {
   // Retrieve all products from the database and return them
-  return NextResponse.json([
-    { id: 1, name: "Milk", price: 5 },
-    { id: 2, name: "Cereal", price: 3 },
-    { id: 3, name: "Juice", price: 4 },
-  ]);
+  const products = await prisma.product.findMany();
+  return NextResponse.json(products);
 }
 
 /**
@@ -33,9 +31,14 @@ export async function POST(request: NextRequest) {
   if (!validation.success)
     return NextResponse.json(validation.error.errors, { status: 400 });
 
+  // Create a new user in the database
+  const product = await prisma.product.create({
+    data: {
+      name: body.name,
+      price: parseFloat(body.price),
+    },
+  });
+
   // Return new created product
-  return NextResponse.json(
-    { id: 10, name: body.name, price: body.price },
-    { status: 201 }
-  );
+  return NextResponse.json(product, { status: 201 });
 }
