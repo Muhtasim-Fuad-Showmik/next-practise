@@ -1,25 +1,29 @@
 import { NextRequest, NextResponse } from "next/server";
 import schema from "../schema";
+import prisma from "@/prisma/client";
 
 /**
  * Retrieves details of the specified product
  *
- * @param reqest with no required format
+ * @param request with no required format
  * @param param containing the ID of the product to get
  * @returns the retrieved product with the specified ID
  */
-export function GET(
+export async function GET(
   request: NextRequest,
-  { params }: { params: { id: number } }
+  { params }: { params: { id: string } }
 ) {
   // Fetch data of the specified product from the database
+  const product = await prisma.product.findUnique({
+    where: { id: parseInt(params.id) },
+  });
 
   // If no product is found, return 404 error
-  if (params.id > 10)
+  if (!product)
     return NextResponse.json({ error: "Product not found" }, { status: 404 });
 
   // Else return the data
-  return NextResponse.json({ id: 1, name: "Milk", price: "45" });
+  return NextResponse.json(product);
 }
 
 /**
@@ -31,7 +35,7 @@ export function GET(
  */
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: number } }
+  { params }: { params: { id: string } }
 ) {
   // Validate the request body
   const body = await request.json();
@@ -42,19 +46,25 @@ export async function PUT(
     return NextResponse.json(validation.error.errors, { status: 400 });
 
   // Fetch the product with the given id
+  const product = await prisma.product.findUnique({
+    where: { id: parseInt(params.id) },
+  });
 
   // If the product does not exist, return 404
-  if (params.id > 10)
+  if (!product)
     return NextResponse.json({ error: "Product not found" }, { status: 404 });
 
   // Update the product in the database
+  const updatedProduct = await prisma.product.update({
+    where: { id: product.id },
+    data: {
+      name: body.name,
+      price: parseFloat(body.price),
+    },
+  });
 
   // Return the updated product
-  return NextResponse.json({
-    id: params.id,
-    name: body.name,
-    price: body.price,
-  });
+  return NextResponse.json(updatedProduct);
 }
 
 /**
@@ -66,15 +76,21 @@ export async function PUT(
  */
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: number } }
+  { params }: { params: { id: string } }
 ) {
   // Fetch user from the database
+  const product = await prisma.product.findUnique({
+    where: { id: parseInt(params.id) },
+  });
 
   // If not found, return 404 error
-  if (params.id > 10)
-    return NextResponse.json({ error: "Product not found" }, { status: 400 });
+  if (!product)
+    return NextResponse.json({ error: "Product not found" }, { status: 404 });
 
   // Delete the product
+  await prisma.product.delete({
+    where: { id: product.id },
+  });
 
   // Return response with 200 status code
   return NextResponse.json({});
