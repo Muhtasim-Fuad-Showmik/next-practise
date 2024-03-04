@@ -21,6 +21,10 @@ const UploadPage = () => {
       )}
       <CldUploadWidget
         uploadPreset="xtqdtanu"
+        options={{
+          sources: ["local"],
+          multiple: false,
+        }}
         onSuccess={(result, options) => {
           const info = result.info as CloudinaryResult;
           setPublicId(info.public_id);
