@@ -14,6 +14,7 @@
 
 body {
   color: rgb(var(--foreground-rgb));
+  font-family: tenorite;
 }
 
 /* Defines styles for basic HTML elements */

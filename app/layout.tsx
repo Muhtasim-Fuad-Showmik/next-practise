@@ -1,10 +1,15 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Lato } from "next/font/google";
+import localFont from "next/font/local";
 import NavBar from "./NavBar";
 import AuthProvider from "./auth/Provider";
 
-const inter = Inter({ subsets: ["latin"] });
+const lato = Lato({ subsets: ["latin"], weight: ["400", "700"] });
+const tenorite = localFont({
+  src: "../public/fonts/29595851800.ttf",
+  variable: "--font-tenorite",
+});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -18,7 +23,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" data-theme="winter">
-      <body className={inter.className}>
+      <body className={tenorite.variable}>
         <AuthProvider>
           <NavBar />
           <main className="p-5">{children}</main>
