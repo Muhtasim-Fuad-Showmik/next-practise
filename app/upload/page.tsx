@@ -45,12 +45,26 @@ const UploadPage = () => {
           </button>
         )}
       </CldUploadWidget>
-      <button
-        onClick={() => setVisible(true)}
-        className="btn btn-secondary ml-3"
-      >
-        Show
-      </button>
+
+      <div className="flex flex-col mt-3 space-y-3 w-32">
+        <button onClick={() => setVisible(true)} className="btn btn-secondary">
+          Show Heavy
+        </button>
+        <button
+          onClick={async () => {
+            // Lazy loading the lodash bundle to be imported
+            const _ = (await import("lodash")).default;
+
+            const users = [{ name: "c" }, { name: "b" }, { name: "a" }];
+
+            const sorted = _.orderBy(users, ["name"]);
+            console.log("🚀 ~ UploadPage ~ sorted:", sorted);
+          }}
+          className="btn btn-secondary"
+        >
+          Console Users
+        </button>
+      </div>
       {isVisible && <HeavyComponent />}
     </>
   );
