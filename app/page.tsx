@@ -3,7 +3,7 @@ import neuvilette from "@/public/images/Neuvilette.png";
 import Link from "next/link";
 import ProductCard from "./components/ProductCard/ProductCard";
 import { getServerSession } from "next-auth";
-import { authOptions } from "./api/auth/[...nextauth]/route";
+import { authOptions } from "./api/auth/authOptions";
 import { Metadata } from "next";
 
 export default async function Home() {
