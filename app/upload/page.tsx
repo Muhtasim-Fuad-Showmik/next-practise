@@ -1,6 +1,14 @@
 "use client";
 import React, { useState } from "react";
 import { CldUploadWidget, CldImage } from "next-cloudinary";
+import dynamic from "next/dynamic";
+import Loading from "../loading";
+
+// Lazy loading heavy component (a client component)
+const HeavyComponent = dynamic(() => import("../components/HeavyComponent"), {
+  ssr: false, // disabling server side rendering when we need
+  loading: () => <Loading />,
+});
 
 interface CloudinaryResult {
   public_id: string;
@@ -8,6 +16,7 @@ interface CloudinaryResult {
 
 const UploadPage = () => {
   const [publicId, setPublicId] = useState("");
+  const [isVisible, setVisible] = useState(false);
 
   return (
     <>
@@ -36,6 +45,13 @@ const UploadPage = () => {
           </button>
         )}
       </CldUploadWidget>
+      <button
+        onClick={() => setVisible(true)}
+        className="btn btn-secondary ml-3"
+      >
+        Show
+      </button>
+      {isVisible && <HeavyComponent />}
     </>
   );
 };
